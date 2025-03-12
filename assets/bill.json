@@ -1,0 +1,12 @@
+[
+    {
+        "bill_id": 1,
+        "user_id": 1,
+        "order_id": 1,
+        "advance_paied": 1500,
+        "payment_method": "upi",
+        "gst_no": "aa",
+        "date": 15000,
+        "transaction_id": 1502020
+    }
+]

@@ -1,0 +1,13 @@
+[
+    {
+        "brand_name": "valam",
+        "file_name": "abc",
+        "cloath_name": "abc",
+        "cloath_rate": 1500,
+        "images": [
+            "src",
+            "src"
+        ],
+        "no_bg_image": "src"
+    }
+]

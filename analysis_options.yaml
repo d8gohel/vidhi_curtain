@@ -1,0 +1,9 @@
+analyzer:
+  errors:
+    must_be_immutable: ignore
+
+
+include: package:flutter_lints/flutter.yaml
+linter:
+  rules:
+    

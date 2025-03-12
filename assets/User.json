@@ -1,0 +1,36 @@
+[
+    {
+        "id": 1,
+        "FirstName": "Aman",
+        "LastName": "Gupta",
+        "Email": "Abc@gmail.com",
+        "PhoneNumber": "1234567890",
+        "Address": "dfkljasdjfkadsf",
+        "City": "Ahmedabad",
+        "ZipCode": "380001",
+        "Window": [
+            {
+                "Name": "Bedroom",
+                "Height": 150,
+                "Width": 150
+            }
+        ]
+    },
+    {
+        "id": 1,
+        "FirstName": "Aman",
+        "LastName": "Gupta",
+        "Email": "Abc@gmail.com",
+        "PhoneNumber": "1234567890",
+        "Address": "dfkljasdjfkadsf",
+        "City": "Ahmedabad",
+        "ZipCode": "380001",
+        "Window": [
+            {
+                "Name": "Bedroom",
+                "Height": 150,
+                "Width": 150
+            }
+        ]
+    }
+]

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "28702197574",
+    "project_id": "vidhiadmin-c8402",
+    "storage_bucket": "vidhiadmin-c8402.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28702197574:android:00de72da5cd83f55770747",
+        "android_client_info": {
+          "package_name": "com.vidhicurtain.vidhiadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFT3djOWbK5dduDMLfHQ5A9UQHVREgfnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
