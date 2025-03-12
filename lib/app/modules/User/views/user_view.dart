@@ -27,7 +27,6 @@ class UserListScreen extends StatelessWidget {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Navigate to Windows of Selected User
                   IconButton(
                     onPressed: () {
                       Get.to(() => WindowListScreen(userId: user.id!));
@@ -36,6 +35,8 @@ class UserListScreen extends StatelessWidget {
                     // child: Text("Windows"),
                   ),
                   SizedBox(width: 8),
+                  Text("asdkfl"),
+
                   IconButton(
                     icon: Icon(Icons.edit, color: Colors.blue),
                     onPressed:
