@@ -1,4 +1,4 @@
-// import 'package:firebase_core/firebase_core.dart';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -10,17 +10,18 @@ import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Supabase.initialize(
     anonKey:
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRraHNuc2FnaXl4aXp4YWFqeWluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjIwNjAsImV4cCI6MjA1NjgzODA2MH0.lf8T9GGHMtigQzaiX54TXm_SmGzcWaJxsJ_V6LMtF1Y",
     url: 'https://tkhsnsagiyxizxaajyin.supabase.co',
   );
-  await windowManager.ensureInitialized();
+  if (Platform.isWindows) {
+    await windowManager.ensureInitialized();
 
-  await windowManager.setResizable(false);
+    await windowManager.setResizable(false);
 
-  await windowManager.center();
+    await windowManager.center();
+  }
 
   runApp(
     GetMaterialApp(

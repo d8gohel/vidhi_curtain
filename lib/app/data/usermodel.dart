@@ -19,7 +19,7 @@ class UserModel {
     required this.zipCode,
   });
 
-  // Convert JSON data to a UserModel instance
+
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],

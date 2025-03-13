@@ -20,65 +20,67 @@ class HomeView extends GetView<HomeController> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('HomeView'), centerTitle: true),
-      body: Column(
-        children: [
-          CardWidget(
-            name: "User",
-            iconData: Icons.person_sharp,
-            color: Colors.grey,
-            ontap: () {
-              Get.to(() => UserListScreen());
-            },
-          ),
-          CardWidget(
-            name: "Product",
-            iconData: Icons.curtains_rounded,
-            color: Colors.red,
-            ontap: () {
-              Get.to(() => ProductsView());
-            },
-          ),
-          CardWidget(
-            name: "Estimation",
-            iconData: Icons.list_alt,
-            color: Colors.blue,
-            ontap: () {
-              Get.to(() => OrdersView());
-            },
-          ),
-          CardWidget(
-            name: "Bills",
-            iconData: Icons.edit_document,
-            color: Colors.green,
-            ontap: () {
-              Get.to(() => BillsView());
-            },
-          ),
-          CardWidget(
-            name: "Show Demo",
-            iconData: Icons.desktop_mac_outlined,
-            color: Colors.yellow,
-            ontap: () {
-              Get.to(() => PresentationView());
-            },
-          ),
-          SizedBox(
-            height: MediaQuery.sizeOf(context).height / 4,
-            child: CarouselView.weighted(
-              controller: controller,
-              itemSnapping: true,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CardWidget(
+              name: "User",
+              iconData: Icons.person_sharp,
+              color: Colors.grey,
+              ontap: () {
+                Get.to(() => UserListScreen());
+              },
+            ),
+            CardWidget(
+              name: "Product",
+              iconData: Icons.curtains_rounded,
+              color: Colors.red,
+              ontap: () {
+                Get.to(() => ProductsView());
+              },
+            ),
+            CardWidget(
+              name: "Estimation",
+              iconData: Icons.list_alt,
+              color: Colors.blue,
+              ontap: () {
+                Get.to(() => OrdersView());
+              },
+            ),
+            CardWidget(
+              name: "Bills",
+              iconData: Icons.edit_document,
+              color: Colors.green,
+              ontap: () {
+                Get.to(() => BillsView());
+              },
+            ),
+            CardWidget(
+              name: "Show Demo",
+              iconData: Icons.desktop_mac_outlined,
+              color: Colors.yellow,
+              ontap: () {
+                Get.to(() => PresentationView());
+              },
+            ),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height / 4,
+              child: CarouselView.weighted(
+                controller: controller,
+                itemSnapping: true,
 
-              flexWeights: const <int>[1, 10, 1],
-              children: List.generate(
-                10,
-                (index) => Image.network(
-                  "https://www.alexbirkett.com/wp-content/uploads/2022/11/iamalexbirkett_jacked_aliens_wandering_through_lord_of_the_ring_0bee4dd7-c4a1-4f73-9b1b-f407f052054f.png",
-                  fit: BoxFit.cover,
+                flexWeights: const <int>[1, 10, 1],
+                children: List.generate(
+                  10,
+                  (index) => Image.network(
+                    "https://www.alexbirkett.com/wp-content/uploads/2022/11/iamalexbirkett_jacked_aliens_wandering_through_lord_of_the_ring_0bee4dd7-c4a1-4f73-9b1b-f407f052054f.png",
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
