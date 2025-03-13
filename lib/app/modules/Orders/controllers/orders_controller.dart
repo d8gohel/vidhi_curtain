@@ -17,7 +17,7 @@ import 'package:vidhiadmin/app/data/windowmodel.dart';
 import '../../../data/usermodel.dart';
 
 class OrdersController extends GetxController {
-  WindowModel? selectedWindow = null;
+  WindowModel? selectedWindow;
   RxString username = ''.obs;
   RxString phoneNumber = ''.obs;
   RxDouble height = 0.0.obs;
@@ -26,8 +26,10 @@ class OrdersController extends GetxController {
   RxString selectedOption = '120'.obs;
   List<UserModel> users = [];
   List<WindowModel> windows = [];
+  bool ispipefitted = false;
 
   RxList<List<dynamic>> tableData = <List<dynamic>>[].obs;
+  List saveddata = [];
   final supabase = Supabase.instance.client;
   RxDouble totalCost = 0.0.obs;
 
@@ -66,6 +68,12 @@ class OrdersController extends GetxController {
     windows = res1.map((json) => WindowModel.fromJson(json)).toList();
   }
 
+  void savedata() {
+    saveddata.add(tableData);
+    logger.i(saveddata);
+    logger.i(saveddata);
+  }
+
   void count() {
     double heightValue = height.value + 12;
 
@@ -81,10 +89,22 @@ class OrdersController extends GetxController {
     double accessoryPrice =
         selectedOption.value == '120' ? (width.value / 12 * 250) : 0.0;
 
-    double totalCostValue =
-        sewingCost + meterCost + accessoryPrice + installCharge;
-    if (selectedOption.value == '210') {
+    double totalCostValue = sewingCost + meterCost;
+    if (ispipefitted == false) {
+      totalCostValue += accessoryPrice + installCharge;
+    }
+    if (selectedOption.value == '210' && ispipefitted == false) {
       totalCostValue += (width.value * 2 / 12).round() / 2 * 40 + 200;
+    }
+    double feet = width / 12;
+
+    // Round up if the decimal part of the width is greater than 0.5
+    if (feet - feet.toInt() > 0.5) {
+      // feet += 1;
+      feet =
+          feet.roundToDouble(); // Add 1 if the decimal part is greater than 0.5
+    } else {
+      feet = feet.toInt() + 0.5; // Otherwise, just convert to integer
     }
 
     tableData.value = [
@@ -95,23 +115,20 @@ class OrdersController extends GetxController {
         (selectedOption.value == '120' ? 120 : 210),
         sewingCost,
       ],
-      if (selectedOption.value == '120')
+      if (selectedOption.value == '120' && ispipefitted == false)
         ['Accessory Cost', width.value / 12, 250, accessoryPrice],
-      if (selectedOption.value == '210')
-        [
-          'Pipe Cost',
-          '${(width.value * 2 / 12).round() / 2} feet',
-          40,
-          (width.value * 2 / 12).round() / 2 * 40,
-        ],
-      if (selectedOption.value == '210') ['Socket Cost', '1 pair', 200, 200],
-      ["Installation Charge", '1 piece', installCharge, installCharge],
+      if (selectedOption.value == '210' && ispipefitted == false)
+        ['Pipe Cost', '$feet feet', 40, feet * 40],
+      if (selectedOption.value == '210' && ispipefitted == false)
+        ['Socket Cost', '1 pair', 200, 200],
+      if (ispipefitted == false)
+        ["Installation Charge", '1 piece', installCharge, installCharge],
       ['Total Cost', '', '', totalCostValue],
     ];
 
     totalCost.value = totalCostValue;
-
-    generatePDF(tableData, totalCostValue);
+    Get.forceAppUpdate();
+    // generatePDF(tableData, totalCostValue);
   }
 
   Future<void> fetchProducts() async {
@@ -122,7 +139,7 @@ class OrdersController extends GetxController {
 
     var data = response as List;
     items = data.map((e) => Product.fromJson(e)).toList();
-    print(items);
+    // print(items);
   }
 
   double toQuarterSection(double value) {
@@ -245,9 +262,8 @@ class OrdersController extends GetxController {
       "saved",
       file.path,
       onTap: (snack) async {
-        await file.openRead();
         logger.i("open");
-        OpenFilex.open(file.path);
+        await OpenFilex.open(file.path);
       },
     );
   }
