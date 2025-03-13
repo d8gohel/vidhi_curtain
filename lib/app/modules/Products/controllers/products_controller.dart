@@ -4,13 +4,12 @@ import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../data/productmodel.dart';
-// import '../models/product_model.dart';
 
 class ProductController extends GetxController {
   final supabase = Supabase.instance.client;
   var isLoading = false.obs;
   var products = <Product>[].obs;
-  File? selectedImage;
+  Rx<File?> selectedImage = Rx<File?>(null);
 
   @override
   void onInit() {
@@ -55,17 +54,16 @@ class ProductController extends GetxController {
     }
   }
 
-  showimage() async {
+  Future<File?> showimage() async {
     final pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxHeight: 500,
     );
     if (pickedFile != null) {
-      selectedImage = File(pickedFile.path);
-      Logger().i(selectedImage?.path);
-      // Trigger a rebuild to show the selected image
-      Get.forceAppUpdate();
+      selectedImage.value = File(pickedFile.path);
+      Logger().i(selectedImage.value?.path);
     }
+    return selectedImage.value;
   }
 
   // Add or Update Product
