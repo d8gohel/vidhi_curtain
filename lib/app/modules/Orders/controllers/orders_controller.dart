@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:logger/web.dart';
+import 'package:open_filex/open_filex.dart';
 
 import 'package:path_provider/path_provider.dart';
 
@@ -83,7 +84,7 @@ class OrdersController extends GetxController {
     double totalCostValue =
         sewingCost + meterCost + accessoryPrice + installCharge;
     if (selectedOption.value == '210') {
-      totalCostValue += (width.value / 12 * 40) + 200;
+      totalCostValue += (width.value * 2 / 12).round() / 2 * 40 + 200;
     }
 
     tableData.value = [
@@ -97,7 +98,12 @@ class OrdersController extends GetxController {
       if (selectedOption.value == '120')
         ['Accessory Cost', width.value / 12, 250, accessoryPrice],
       if (selectedOption.value == '210')
-        ['Pipe Cost', '${width.value / 12} feet', 40, width.value / 12 * 40],
+        [
+          'Pipe Cost',
+          '${(width.value * 2 / 12).round() / 2} feet',
+          40,
+          (width.value * 2 / 12).round() / 2 * 40,
+        ],
       if (selectedOption.value == '210') ['Socket Cost', '1 pair', 200, 200],
       ["Installation Charge", '1 piece', installCharge, installCharge],
       ['Total Cost', '', '', totalCostValue],
@@ -105,7 +111,7 @@ class OrdersController extends GetxController {
 
     totalCost.value = totalCostValue;
 
-    // generatePDF(tableData, totalCostValue);
+    generatePDF(tableData, totalCostValue);
   }
 
   Future<void> fetchProducts() async {
@@ -165,6 +171,14 @@ class OrdersController extends GetxController {
                 ),
               ),
               pw.SizedBox(height: 15),
+              pw.Text(
+                'Quotation',
+                style: pw.TextStyle(
+                  fontSize: 24,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+              pw.SizedBox(height: 15),
               pw.Row(
                 children: [
                   pw.Text(
@@ -187,7 +201,7 @@ class OrdersController extends GetxController {
               pw.Row(
                 children: [
                   pw.Text(
-                    "Mobile NO:",
+                    "Mobile No.:",
                     style: TextStyle(
                       fontSize: 20,
                       // decoration: pw.TextDecoration.underline,
@@ -227,6 +241,14 @@ class OrdersController extends GetxController {
     final output = await getDownloadsDirectory();
     final file = File('${output!.path}/${username.value}.pdf');
     await file.writeAsBytes(await pdf.save());
-    Get.snackbar("saved", file.path);
+    Get.snackbar(
+      "saved",
+      file.path,
+      onTap: (snack) async {
+        await file.openRead();
+        logger.i("open");
+        OpenFilex.open(file.path);
+      },
+    );
   }
 }

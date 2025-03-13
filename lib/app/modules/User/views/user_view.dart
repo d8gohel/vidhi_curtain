@@ -35,7 +35,6 @@ class UserListScreen extends StatelessWidget {
                     // child: Text("Windows"),
                   ),
                   SizedBox(width: 8),
-                  Text("asdkfl"),
 
                   IconButton(
                     icon: Icon(Icons.edit, color: Colors.blue),

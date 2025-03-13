@@ -51,6 +51,7 @@ class ProductsView extends StatelessWidget {
             mainAxisSpacing: 10, // Space between rows
             childAspectRatio: 0.7, // Adjust the aspect ratio of each grid item
           ),
+          padding: EdgeInsets.symmetric(horizontal: 10),
           itemCount: controller.products.length,
           itemBuilder: (context, index) {
             final product = controller.products[index];
