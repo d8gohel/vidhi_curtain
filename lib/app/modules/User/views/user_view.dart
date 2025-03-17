@@ -21,31 +21,36 @@ class UserListScreen extends StatelessWidget {
           itemCount: userController.users.length,
           itemBuilder: (context, index) {
             final user = userController.users[index];
-            return ListTile(
-              title: Text('${user.firstName} ${user.lastName}'),
-              subtitle: Text(user.email),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Get.to(() => WindowListScreen(userId: user.id!));
-                    },
-                    icon: Icon(Icons.window_outlined),
-                    // child: Text("Windows"),
-                  ),
-                  SizedBox(width: 8),
+            return Card(
+              color: Colors.white,
+              elevation: 5,
+              child: ListTile(
+                title: Text('${user.firstName} ${user.lastName}'),
+                subtitle: Text(user.email),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Get.to(() => WindowListScreen(userId: user.id!));
+                      },
+                      icon: Icon(Icons.window_outlined),
+                      // child: Text("Windows"),
+                    ),
+                    SizedBox(width: 8),
 
-                  IconButton(
-                    icon: Icon(Icons.edit, color: Colors.blue),
-                    onPressed:
-                        () => showUserBottomSheet(user: user, context: context),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete, color: Colors.red),
-                    onPressed: () => userController.deleteUser(user.id!),
-                  ),
-                ],
+                    IconButton(
+                      icon: Icon(Icons.edit, color: Colors.blue),
+                      onPressed:
+                          () =>
+                              showUserBottomSheet(user: user, context: context),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => userController.deleteUser(user.id!),
+                    ),
+                  ],
+                ),
               ),
             );
           },

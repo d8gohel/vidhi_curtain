@@ -52,7 +52,7 @@ class UserController extends GetxController {
     bool flag = false;
     String message = '';
     // Debugging: Print user data to ensure it's being passed correctly
-    print('Checking if user exists: ${user.firstName}');
+    // print('Checking if user exists: ${user.firstName}');
 
     for (var element in users) {
       if (element.firstName == user.firstName &&
