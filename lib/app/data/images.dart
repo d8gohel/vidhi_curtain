@@ -1,3 +1,4 @@
+// ignore: camel_case_types
 class coreimages {
   static const icon = 'assets/icon.gif';
   // ignore: constant_identifier_names

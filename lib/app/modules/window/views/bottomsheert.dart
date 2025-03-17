@@ -6,7 +6,7 @@ import 'package:vidhiadmin/app/data/windowmodel.dart';
 
 void showWindowBottomSheet({WindowModel? window, required int userId}) {
   final WindowController windowController = Get.find();
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   final TextEditingController nameController = TextEditingController(
     text: window?.name ?? '',
@@ -27,7 +27,7 @@ void showWindowBottomSheet({WindowModel? window, required int userId}) {
       ),
       child: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -56,8 +56,9 @@ void showWindowBottomSheet({WindowModel? window, required int userId}) {
                 textInputType: TextInputType.number,
                 validator: (value) {
                   if (value!.isEmpty) return "Enter height";
-                  if (double.tryParse(value) == null)
+                  if (double.tryParse(value) == null) {
                     return "Enter valid height";
+                  }
                   return null;
                 },
               ),
@@ -82,7 +83,7 @@ void showWindowBottomSheet({WindowModel? window, required int userId}) {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (formKey.currentState!.validate()) {
                       if (window == null) {
                         windowController.addWindow(
                           WindowModel(

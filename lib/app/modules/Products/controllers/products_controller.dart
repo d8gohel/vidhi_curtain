@@ -44,11 +44,11 @@ class ProductController extends GetxController {
       final publicUrl = supabase.storage
           .from('curtains')
           .getPublicUrl(fileName);
-      print('Image uploaded successfully: $publicUrl');
+      // print('Image uploaded successfully: $publicUrl');
 
       return publicUrl;
     } catch (e) {
-      print('Upload Image Error: $e');
+      // print('Upload Image Error: $e');
       Get.snackbar('Error', 'Image upload failed');
       return null;
     }
@@ -90,7 +90,7 @@ class ProductController extends GetxController {
       final data = product.toJson();
       data['image_url'] = imageUrl;
 
-      print('Saving Data: $data');
+      // print('Saving Data: $data');
 
       if (product.productId == null) {
         await supabase.from('products').insert(data);
@@ -105,7 +105,7 @@ class ProductController extends GetxController {
       Get.back();
       Get.snackbar('Success', 'Product saved successfully');
     } catch (e) {
-      print('Save Product Error: $e');
+      // print('Save Product Error: $e');
       Get.snackbar('Error', e.toString());
     } finally {
       isLoading(false);
