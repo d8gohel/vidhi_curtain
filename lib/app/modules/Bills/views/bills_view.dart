@@ -8,6 +8,7 @@ import '../controllers/bills_controller.dart';
 
 class BillsView extends GetView<BillsController> {
   BillsView({super.key});
+  @override
   final BillsController controller = Get.put(BillsController());
 
   @override
@@ -73,7 +74,17 @@ class BillsView extends GetView<BillsController> {
                             },
                             style: Styles.buttonstyle,
                             child: Text(
-                              "Download Pdf",
+                              "Download Estimation",
+                              style: GoogleFonts.sanchez(fontSize: 15),
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              controller.generateBill();
+                            },
+                            style: Styles.buttonstyle,
+                            child: Text(
+                              "Download Bill",
                               style: GoogleFonts.sanchez(fontSize: 15),
                             ),
                           ),
@@ -113,7 +124,7 @@ class BillsView extends GetView<BillsController> {
                         ),
                       ),
                       onTap: () {
-                        Get.to(DetailsView(data: order));
+                        Get.to(() => DetailsView(data: order));
                       },
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

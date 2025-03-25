@@ -32,7 +32,7 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
-      Logger().i(response);
+      Logger(printer: PrettyPrinter()).i(response.user);
 
       // Dismiss the loading dialog once login is successful
       Get.back();
