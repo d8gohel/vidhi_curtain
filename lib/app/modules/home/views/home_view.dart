@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vidhiadmin/app/modules/Bills/views/bills_view.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:vidhiadmin/app/modules/Auth/views/auth_view.dart';import 'package:vidhiadmin/app/modules/Bills/views/bills_view.dart';
 import 'package:vidhiadmin/app/modules/Orders/views/orders_view.dart';
 import 'package:vidhiadmin/app/modules/Presentation/views/presentation_view.dart';
 import 'package:vidhiadmin/app/modules/Products/views/products_view.dart';
 import 'package:vidhiadmin/app/modules/User/views/user_view.dart';
+import 'package:vidhiadmin/app/modules/utils/styles.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -19,7 +21,52 @@ class HomeView extends GetView<HomeController> {
     // Track the current index of the carousel
 
     return Scaffold(
-      appBar: AppBar(title: const Text('HomeView'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('HomeView'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.defaultDialog(
+                radius: 0,
+
+                title: 'Confirm Action',
+                middleText: 'Are you sure you want to Logout?',
+                onCancel: () {
+                  Get.snackbar('Cancelled', 'You cancelled the action');
+                },
+                onConfirm: () {
+                  Get.snackbar('Confirmed', 'You confirmed the action');
+                },
+                confirm: ElevatedButton(
+                  style: Styles.buttonstyle,
+                  onPressed: () async {
+                    final SupabaseClient supabase = Supabase.instance.client;
+                    await supabase.auth.signOut();
+                    Get.back();
+                    Get.off(() => AuthView());
+                  },
+                  child: Text('Yes'),
+                ),
+                cancel: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text('No'),
+                ),
+              );
+            },
+            icon: Icon(Icons.logout, color: Colors.red, size: 30),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -67,8 +114,8 @@ class HomeView extends GetView<HomeController> {
               height: MediaQuery.sizeOf(context).height / 4,
               child: CarouselView.weighted(
                 controller: controller,
-                itemSnapping: true,
 
+                itemSnapping: true,
                 flexWeights: const <int>[1, 10, 1],
                 children: List.generate(
                   10,

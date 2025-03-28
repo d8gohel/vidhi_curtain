@@ -86,10 +86,12 @@ class OrdersController extends GetxController {
 
   Future<void> savedata() async {
     saveddata.add(tableData);
-
+    print(height.value);
+    print(width.value);
     var data = {
       "name": username.value,
-
+      "height": height.value,
+      "width": width.value,
       "phone_number": phoneNumber.value,
       "type": selectedOption.value == '120' ? "Arabian" : "ring",
       "meter": meter,
@@ -147,7 +149,7 @@ class OrdersController extends GetxController {
     }
 
     tableData.value = [
-      ['Meter Cost', meter, price.value, meterCost],
+      ['Meter Cost  ', meter, price.value, meterCost],
       [
         'Swing Cost (With Material)',
         pano,
@@ -199,8 +201,6 @@ class OrdersController extends GetxController {
         ],
       ),
     );
-
-    // generatePDF(tableData, totalCostValue);
   }
 
   Future<void> fetchProducts() async {

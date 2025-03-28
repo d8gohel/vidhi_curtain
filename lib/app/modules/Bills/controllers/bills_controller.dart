@@ -1,5 +1,6 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
-import 'dart:math';
 
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -43,108 +44,109 @@ class BillsController extends GetxController {
     return tot;
   }
 
-  void generateBill() {
-    num metercost = 0;
-    num swingcost = 0;
+  // void generateBill() {
+  //   num metercost = 0;
+  //   num swingcost = 0;
 
-    print(metercost);
-    print(swingcost);
+  //   // print(metercost);
+  //   // print(swingcost);
 
-    // final pdf = pw.Document();
-    // pdf.addPage(
-    //   pw.Page(
-    //     build: (pw.Context context) {
-    //       return pw.Column(
-    //         mainAxisAlignment: pw.MainAxisAlignment.start,
-    //         crossAxisAlignment: pw.CrossAxisAlignment.start,
-    //         children: [
-    //           // pw.Circle(fillColor: PdfColor.fromInt(0xFF28324B)),
-    //           pw.Row(
-    //             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-    //             children: [
-    //               pw.Column(
-    //                 mainAxisAlignment: pw.MainAxisAlignment.start,
-    //                 crossAxisAlignment: pw.CrossAxisAlignment.start,
-    //                 children: [
-    //                   pw.Text("Dharmendra K Chauhan"),
-    //                   pw.Text("PAN No:ANRPC6263H"),
-    //                 ],
-    //               ),
-    //               pw.Column(
-    //                 mainAxisAlignment: pw.MainAxisAlignment.end,
-    //                 crossAxisAlignment: pw.CrossAxisAlignment.end,
-    //                 children: [
-    //                   pw.Text("Dharmesh"),
-    //                   pw.Text("Mo.9427253352"),
-    //                   pw.Text("Mo.9979697782"),
-    //                 ],
-    //               ),
-    //             ],
-    //           ),
-    //           pw.Text(
-    //             'Vidhi Curtain',
-    //             style: pw.TextStyle(
-    //               fontSize: 24,
-    //               fontWeight: pw.FontWeight.bold,
-    //             ),
-    //           ),
-    //           pw.SizedBox(height: 15),
-    //           pw.Text(
-    //             'Quotation',
-    //             style: pw.TextStyle(
-    //               fontSize: 24,
-    //               fontWeight: pw.FontWeight.bold,
-    //             ),
-    //           ),
-    //           pw.SizedBox(height: 15),
-    //           pw.Row(
-    //             children: [
-    //               pw.Text("Name:", style: pw.TextStyle(fontSize: 20)),
-    //               pw.Text(
-    //                 billlist[0]["name"],
-    //                 style: pw.TextStyle(
-    //                   fontSize: 20,
-    //                   decoration: pw.TextDecoration.underline,
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
+  //   // final pdf = pw.Document();
+  //   // pdf.addPage(
+  //   //   pw.Page(
+  //   //     build: (pw.Context context) {
+  //   //       return pw.Column(
+  //   //         mainAxisAlignment: pw.MainAxisAlignment.start,
+  //   //         crossAxisAlignment: pw.CrossAxisAlignment.start,
+  //   //         children: [
+  //   //           // pw.Circle(fillColor: PdfColor.fromInt(0xFF28324B)),
+  //   //           pw.Row(
+  //   //             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+  //   //             children: [
+  //   //               pw.Column(
+  //   //                 mainAxisAlignment: pw.MainAxisAlignment.start,
+  //   //                 crossAxisAlignment: pw.CrossAxisAlignment.start,
+  //   //                 children: [
+  //   //                   pw.Text("Dharmendra K Chauhan"),
+  //   //                   pw.Text("PAN No:ANRPC6263H"),
+  //   //                 ],
+  //   //               ),
+  //   //               pw.Column(
+  //   //                 mainAxisAlignment: pw.MainAxisAlignment.end,
+  //   //                 crossAxisAlignment: pw.CrossAxisAlignment.end,
+  //   //                 children: [
+  //   //                   pw.Text("Dharmesh"),
+  //   //                   pw.Text("Mo.9427253352"),
+  //   //                   pw.Text("Mo.9979697782"),
+  //   //                 ],
+  //   //               ),
+  //   //             ],
+  //   //           ),
+  //   //           pw.Text(
+  //   //             'Vidhi Curtain',
+  //   //             style: pw.TextStyle(
+  //   //               fontSize: 24,
+  //   //               fontWeight: pw.FontWeight.bold,
+  //   //             ),
+  //   //           ),
+  //   //           pw.SizedBox(height: 15),
+  //   //           pw.Text(
+  //   //             'Quotation',
+  //   //             style: pw.TextStyle(
+  //   //               fontSize: 24,
+  //   //               fontWeight: pw.FontWeight.bold,
+  //   //             ),
+  //   //           ),
+  //   //           pw.SizedBox(height: 15),
+  //   //           pw.Row(
+  //   //             children: [
+  //   //               pw.Text("Name:", style: pw.TextStyle(fontSize: 20)),
+  //   //               pw.Text(
+  //   //                 billlist[0]["name"],
+  //   //                 style: pw.TextStyle(
+  //   //                   fontSize: 20,
+  //   //                   decoration: pw.TextDecoration.underline,
+  //   //                 ),
+  //   //               ),
+  //   //             ],
+  //   //           ),
 
-    //           pw.Row(
-    //             children: [
-    //               pw.Text(
-    //                 "Mobile No.:",
-    //                 style: pw.TextStyle(
-    //                   fontSize: 20,
-    //                   // decoration: pw.TextDecoration.underline,
-    //                 ),
-    //               ),
-    //               pw.Text(
-    //                 billlist[0]["phone_number"].toString(),
-    //                 style: pw.TextStyle(
-    //                   fontSize: 20,
-    //                   decoration: pw.TextDecoration.underline,
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //           pw.SizedBox(height: 20),
-    //           pw.Table.fromTextArray(
-    //             cellAlignment: pw.Alignment.center,
-    //             headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-    //             headerDecoration: pw.BoxDecoration(color: PdfColors.grey300),
-    //             headers: ['Description', 'Quantity', 'Price', 'Cost'],
+  //   //           pw.Row(
+  //   //             children: [
+  //   //               pw.Text(
+  //   //                 "Mobile No.:",
+  //   //                 style: pw.TextStyle(
+  //   //                   fontSize: 20,
+  //   //                   // decoration: pw.TextDecoration.underline,
+  //   //                 ),
+  //   //               ),
+  //   //               pw.Text(
+  //   //                 billlist[0]["phone_number"].toString(),
+  //   //                 style: pw.TextStyle(
+  //   //                   fontSize: 20,
+  //   //                   decoration: pw.TextDecoration.underline,
+  //   //                 ),
+  //   //               ),
+  //   //             ],
+  //   //           ),
+  //   //           pw.SizedBox(height: 20),
+  //   //           pw.Table.fromTextArray(
+  //   //             cellAlignment: pw.Alignment.center,
+  //   //             headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+  //   //             headerDecoration: pw.BoxDecoration(color: PdfColors.grey300),
+  //   //             headers: ['Description', 'Quantity', 'Price', 'Cost'],
 
-    //             data: tableData,
-    //           ),
-    //         ],
-    //       );
-    //     },
-    //   ),
-    // );
-  }
+  //   //             data: tableData,
+  //   //           ),
+  //   //         ],
+  //   //       );
+  //   //     },
+  //   //   ),
+  //   // );
+  // }
 
   Future<void> genratepdf() async {
+    // ignore: unused_local_variable
     int installcount = 0;
     int socketcount = 0;
     List<List<dynamic>> totalAmounts = [];
@@ -157,10 +159,10 @@ class BillsController extends GetxController {
     num totalaccesorycost = 0;
     num totalinstallcharge = 0;
     num finaltotal = 0;
-    print(billlist);
+
     for (var element in billlist) {
       tableData.add([
-        "Meter Cost",
+        "Meter Cost ",
         element["meter"].toString(),
         element["meter_rate"].toString(),
         (element["meter"] * element["meter_rate"]).toString(),
@@ -171,12 +173,14 @@ class BillsController extends GetxController {
         element["swing_rate"].toString(),
         (element["pano"] * element["swing_rate"]).toString(),
       ]);
-      tableData.add([
-        "Accessory Cost",
-        element["accesory_size"].toString(),
-        element["accessories_rate"].toString(),
-        (element["accesory_size"] * element["accessories_rate"]).toString(),
-      ]);
+      if (element['accesory_size'] != 0) {
+        tableData.add([
+          "Accessory Cost",
+          element["accesory_size"].toString(),
+          element["accessories_rate"].toString(),
+          (element["accesory_size"] * element["accessories_rate"]).toString(),
+        ]);
+      }
 
       if (element["installation_charge"] != 0) {
         tableData.add([
@@ -198,7 +202,7 @@ class BillsController extends GetxController {
       }
 
       tableData.add([
-        "Total Cost (${element['type']})",
+        "Total Cost (${element['type']} size: ${element['height']}  * ${element['width']})",
         '',
 
         '',
@@ -347,7 +351,10 @@ class BillsController extends GetxController {
 
   Future<List<Map<String, dynamic>>> getData() async {
     try {
-      final response = await supabase.from("orders").select();
+      final response = await supabase
+          .from("orders")
+          .select()
+          .order('id', ascending: false);
       orders.value = List<Map<String, dynamic>>.from(response);
       checklist.value = List.generate(
         orders.length,
@@ -367,7 +374,7 @@ class BillsController extends GetxController {
       billlist.add(orders[index]);
       total.value += orders[index]["total_cost"];
       logger.i(billlist);
-      print(billlist);
+      // print(billlist);
     } else {
       total.value -= orders[index]["total_cost"];
       billlist.remove(orders[index]);

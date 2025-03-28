@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -49,6 +50,24 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> sigunup(mail, password, BuildContext context) async {
+    try {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+
+      // Send password reset email with Supabase Authentication
+      await supabase.auth.signUp(email: mail, password: password);
+      Get.back();
+      Get.snackbar("success", "Signup successful");
+    } catch (e) {
+      Get.back();
+      Get.snackbar("not success", e.toString());
+    }
+  }
+
   // Forgot password method
   Future<void> forgotPassword({
     required String email,
@@ -64,9 +83,6 @@ class AuthController extends GetxController {
       // Send password reset email with Supabase Authentication
       await supabase.auth.resetPasswordForEmail(email);
 
-      // Check for errors
-
-      // Dismiss the loading dialog once password reset link is sent
       Get.back();
       Get.snackbar(
         "Forgot password",

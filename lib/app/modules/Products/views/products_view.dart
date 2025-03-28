@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:vidhiadmin/app/modules/Products/controllers/products_controller.dart';
 import 'package:vidhiadmin/app/modules/Products/views/bottomsheet.dart';
 import 'package:vidhiadmin/app/modules/utils/styles.dart';
@@ -36,6 +37,7 @@ class ProductsView extends StatelessWidget {
         ],
       ),
       body: Obx(() {
+        Logger().i(MediaQuery.sizeOf(context).width);
         if (controller.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         }
@@ -60,7 +62,34 @@ class ProductsView extends StatelessWidget {
                 children: [
                   Stack(
                     children: [
-                      Image.network(product.imageUrl.toString()),
+                      Center(
+                        child: SizedBox(
+                          height: 150,
+                          child: Image.network(
+                            product.imageUrl.toString(),
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              (loadingProgress
+                                                      .expectedTotalBytes ??
+                                                  1)
+                                          : null,
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(Icons.error);
+                            },
+                          ),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Align(
@@ -71,8 +100,49 @@ class ProductsView extends StatelessWidget {
                               IconButton(
                                 style: Styles.buttonstyle,
                                 onPressed: () {
-                                  controller.deleteProduct(
-                                    product.productId.toString(),
+                                  Get.defaultDialog(
+                                    radius: 0,
+
+                                    title: 'Confirm Action',
+                                    middleText:
+                                        'Are you sure you want to Delete?',
+                                    onCancel: () {
+                                      Get.snackbar(
+                                        'Cancelled',
+                                        'You cancelled the action',
+                                      );
+                                    },
+                                    onConfirm: () {
+                                      Get.snackbar(
+                                        'Confirmed',
+                                        'You confirmed the action',
+                                      );
+                                    },
+                                    confirm: ElevatedButton(
+                                      style: Styles.buttonstyle,
+                                      onPressed: () {
+                                        controller.deleteProduct(
+                                          product.productId.toString(),
+                                        );
+                                        Get.back();
+                                      },
+                                      child: Text('Yes'),
+                                    ),
+                                    cancel: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red,
+                                        foregroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: Text('No'),
+                                    ),
                                   );
                                 },
                                 icon: Icon(Icons.delete),

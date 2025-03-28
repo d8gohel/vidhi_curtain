@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/web.dart';
 
 import 'package:vidhiadmin/app/data/productmodel.dart';
 import 'package:vidhiadmin/app/modules/Products/controllers/products_controller.dart';
@@ -92,17 +93,27 @@ void showProductBottomSheet(ProductController controller, {Product? product}) {
 
             // Display the selected image if available
             Obx(() {
-              return controller.selectedImage.value != null
+              Logger().i(product!.imageUrl);
+              return controller.selectedImage.value != null ||
+                      product.imageUrl != null
                   ? Stack(
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Image.file(
-                          controller.selectedImage.value!,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
+                        child:
+                            product.imageUrl != null
+                                ? Image.network(
+                                  product.imageUrl.toString(),
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                )
+                                : Image.file(
+                                  controller.selectedImage.value!,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
                       ),
                       Positioned(
                         top: 10,

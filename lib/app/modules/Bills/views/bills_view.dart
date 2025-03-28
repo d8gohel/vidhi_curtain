@@ -80,7 +80,7 @@ class BillsView extends GetView<BillsController> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              controller.generateBill();
+                              controller.genratepdf();
                             },
                             style: Styles.buttonstyle,
                             child: Text(
