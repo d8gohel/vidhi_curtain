@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart' as mp;
 import 'package:get/get.dart';
 import 'package:logger/web.dart';
 import 'package:open_filex/open_filex.dart';
@@ -13,6 +14,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:vidhiadmin/app/data/productmodel.dart';
 import 'package:vidhiadmin/app/data/windowmodel.dart';
+import 'package:vidhiadmin/app/modules/utils/styles.dart';
 
 import '../../../data/usermodel.dart';
 
@@ -35,6 +37,20 @@ class OrdersController extends GetxController {
 
   List<Product> items = <Product>[].obs;
   var logger = Logger(filter: null, printer: PrettyPrinter(), output: null);
+
+  double pano = 0;
+
+  double foot = 0;
+
+  double meter = 0;
+
+  int installCharge = 0;
+
+  double sewingCost = 0;
+
+  double accessoryPrice = 0;
+
+  double feet = 0;
   @override
   void onInit() {
     super.onInit();
@@ -68,26 +84,49 @@ class OrdersController extends GetxController {
     windows = res1.map((json) => WindowModel.fromJson(json)).toList();
   }
 
-  void savedata() {
+  Future<void> savedata() async {
     saveddata.add(tableData);
-    logger.i(saveddata);
-    logger.i(saveddata);
+
+    var data = {
+      "name": username.value,
+
+      "phone_number": phoneNumber.value,
+      "type": selectedOption.value == '120' ? "Arabian" : "ring",
+      "meter": meter,
+      "meter_rate": price.value,
+      "pano": pano,
+      "swing_rate": selectedOption.value == '120' ? 120 : 210,
+      "accessories_rate":
+          ispipefitted == false
+              ? selectedOption.value == '120'
+                  ? 250
+                  : 40
+              : 0,
+      "accesory_size": ispipefitted == false ? feet : 0,
+      "installation_charge": ispipefitted == false ? installCharge : 0,
+      "socket_cost":
+          selectedOption.value == '210' && ispipefitted == false ? 200 : 0,
+      "total_cost": totalCost.value,
+    };
+
+    await supabase.from("orders").insert(data);
   }
 
   void count() {
     double heightValue = height.value + 12;
 
-    double pano = (width.value / 22).ceilToDouble();
-    double foot = heightValue * pano;
-    double meter = foot / 39;
+    pano = (width.value / 22).ceilToDouble();
+    foot = heightValue * pano;
+    meter = foot / 39;
     meter = toQuarterSection(meter);
 
-    double installCharge = selectedOption.value == '120' ? 200 : 150;
-    double sewingCost =
-        pano * (selectedOption.value == '120' ? 120 : 210); // Example
+    installCharge = selectedOption.value == '120' ? 200 : 150;
+    sewingCost = pano * (selectedOption.value == '120' ? 120 : 210); // Example
     double meterCost = price.value * meter;
-    double accessoryPrice =
-        selectedOption.value == '120' ? (width.value / 12 * 250) : 0.0;
+    accessoryPrice =
+        selectedOption.value == '120'
+            ? ((width.value * 2 / 12).round() / 2 * 250)
+            : 0.0;
 
     double totalCostValue = sewingCost + meterCost;
     if (ispipefitted == false) {
@@ -96,7 +135,7 @@ class OrdersController extends GetxController {
     if (selectedOption.value == '210' && ispipefitted == false) {
       totalCostValue += (width.value * 2 / 12).round() / 2 * 40 + 200;
     }
-    double feet = width / 12;
+    feet = width / 12;
 
     // Round up if the decimal part of the width is greater than 0.5
     if (feet - feet.toInt() > 0.5) {
@@ -116,18 +155,51 @@ class OrdersController extends GetxController {
         sewingCost,
       ],
       if (selectedOption.value == '120' && ispipefitted == false)
-        ['Accessory Cost', width.value / 12, 250, accessoryPrice],
+        [
+          'Accessory Cost',
+          (width.value * 2 / 12).round() / 2,
+          250,
+          accessoryPrice,
+        ],
       if (selectedOption.value == '210' && ispipefitted == false)
         ['Pipe Cost', '$feet feet', 40, feet * 40],
       if (selectedOption.value == '210' && ispipefitted == false)
         ['Socket Cost', '1 pair', 200, 200],
       if (ispipefitted == false)
-        ["Installation Charge", '1 piece', installCharge, installCharge],
+        ["Installation Charge", '1 Pc.', installCharge, installCharge],
       ['Total Cost', '', '', totalCostValue],
     ];
 
     totalCost.value = totalCostValue;
     Get.forceAppUpdate();
+    Get.dialog(
+      mp.AlertDialog(
+        shape: mp.BeveledRectangleBorder(),
+        title: mp.Text('Download PDF'),
+        content: mp.Text('Do you want to download the quotation as a PDF?'),
+        actions: [
+          mp.TextButton(
+            onPressed: () {
+              // Dismiss the dialog
+              Get.back();
+            },
+
+            child: mp.Text('Cancel'),
+          ),
+          mp.TextButton(
+            onPressed: () {
+              // Generate the PDF if the user confirms
+              generatePDF(tableData, totalCostValue);
+              // Dismiss the dialog
+              Get.back();
+            },
+            style: Styles.buttonstyle,
+            child: mp.Text('Download'),
+          ),
+        ],
+      ),
+    );
+
     // generatePDF(tableData, totalCostValue);
   }
 
@@ -234,6 +306,7 @@ class OrdersController extends GetxController {
                 ],
               ),
               pw.SizedBox(height: 20),
+              // ignore: deprecated_member_use
               pw.Table.fromTextArray(
                 cellAlignment: Alignment.center,
                 headers: ['Description', 'Quantity', 'Price', 'Cost'],

@@ -7,7 +7,7 @@ import 'package:vidhiadmin/app/modules/utils/commontextfield.dart';
 import 'package:vidhiadmin/app/modules/utils/styles.dart';
 
 void showProductBottomSheet(ProductController controller, {Product? product}) {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController nameController = TextEditingController(
     text: product?.cloathName ?? '',
@@ -33,7 +33,7 @@ void showProductBottomSheet(ProductController controller, {Product? product}) {
         // borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -128,7 +128,7 @@ void showProductBottomSheet(ProductController controller, {Product? product}) {
             SizedBox(height: 5),
             ElevatedButton(
               onPressed: () {
-                if (_formKey.currentState?.validate() ?? false) {
+                if (formKey.currentState?.validate() ?? false) {
                   controller.saveProduct(
                     Product(
                       productId: product?.productId,

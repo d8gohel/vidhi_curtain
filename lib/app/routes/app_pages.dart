@@ -54,7 +54,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.BILLS,
-      page: () => const BillsView(),
+      page: () => BillsView(),
       binding: BillsBinding(),
     ),
     GetPage(

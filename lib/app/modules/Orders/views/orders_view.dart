@@ -58,9 +58,7 @@ class OrdersView extends StatelessWidget {
                               )
                               .toList();
 
-                      // Update the username text field as the user types
                       controller.username.value = _nameController.text;
-                      print(filteredData);
 
                       return filteredData;
                     },
@@ -154,6 +152,7 @@ class OrdersView extends StatelessWidget {
                     iconData: Icons.height,
                     onchange: (value) {
                       controller.height.value = double.tryParse(value!) ?? 0.0;
+                      Get.forceAppUpdate();
                     },
                     textInputType: TextInputType.number,
                     controller: heightcontroller,
@@ -168,11 +167,23 @@ class OrdersView extends StatelessWidget {
                     },
                   ),
 
+                  // Display height in cm
+                  Obx(() {
+                    return Text(
+                      'Height in cm: ${(controller.height.value * 2.54).toStringAsFixed(2)} cm',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  }),
+
                   CommonTextField(
                     label: 'Width',
                     iconData: Icons.width_full_outlined,
                     onchange: (value) {
                       controller.width.value = double.tryParse(value!) ?? 0.0;
+                      Get.forceAppUpdate();
                     },
                     textInputType: TextInputType.number,
                     controller: widthcontroller,
@@ -186,6 +197,17 @@ class OrdersView extends StatelessWidget {
                       return null;
                     },
                   ),
+
+                  // Display width in cm
+                  Obx(() {
+                    return Text(
+                      'Width in cm: ${(controller.width.value * 2.54).toStringAsFixed(2)} cm',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  }),
 
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(
