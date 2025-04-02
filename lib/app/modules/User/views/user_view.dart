@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vidhiadmin/app/modules/User/views/bottomsheet.dart';
+
+import 'package:vidhiadmin/app/modules/utils/styles.dart';
 import '../../window/views/window_view.dart';
 import '../controllers/user_controller.dart';
 
@@ -14,6 +16,9 @@ class UserListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Users')),
       body: Obx(() {
+        if (userController.loading.value) {
+          return Center(child: CircularProgressIndicator());
+        }
         if (userController.users.isEmpty) {
           return Center(child: Text('No Users Found'));
         }
@@ -47,7 +52,47 @@ class UserListScreen extends StatelessWidget {
                     ),
                     IconButton(
                       icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => userController.deleteUser(user.id!),
+                      onPressed: () {
+                        Get.defaultDialog(
+                          radius: 0,
+
+                          title: 'Confirm Action',
+                          middleText: 'Are you sure you want to Delete?',
+                          onCancel: () {
+                            Get.snackbar(
+                              'Cancelled',
+                              'You cancelled the action',
+                            );
+                          },
+                          onConfirm: () {
+                            Get.snackbar(
+                              'Confirmed',
+                              'You confirmed the action',
+                            );
+                          },
+                          confirm: ElevatedButton(
+                            style: Styles.buttonstyle,
+                            onPressed: () {
+                              userController.deleteUser(user.id!);
+                              Get.back();
+                            },
+                            child: Text('Yes'),
+                          ),
+                          cancel: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: Text('No'),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

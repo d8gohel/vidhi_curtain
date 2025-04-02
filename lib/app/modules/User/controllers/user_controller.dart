@@ -7,6 +7,7 @@ import 'package:vidhiadmin/app/data/usermodel.dart';
 
 class UserController extends GetxController {
   final SupabaseClient _supabase = Supabase.instance.client;
+  RxBool loading = false.obs;
   var users = <UserModel>[].obs;
   var filteredUsers = <UserModel>[].obs;
   var searchQuery = ''.obs;
@@ -24,9 +25,11 @@ class UserController extends GetxController {
 
   // Fetch Users from Supabase
   Future<void> fetchUsers() async {
+    loading(true);
     final response = await _supabase.from('users').select();
     // final res1 = await _supabase.from("windows").select();
     // logger.i(res1);
+    loading(false);
 
     users.value = response.map((json) => UserModel.fromJson(json)).toList();
     filteredUsers.value = users;

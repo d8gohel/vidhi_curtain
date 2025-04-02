@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart' as mp;
 import 'package:get/get.dart';
 import 'package:logger/web.dart';
 import 'package:open_filex/open_filex.dart';
@@ -14,7 +13,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:vidhiadmin/app/data/productmodel.dart';
 import 'package:vidhiadmin/app/data/windowmodel.dart';
-import 'package:vidhiadmin/app/modules/utils/styles.dart';
 
 import '../../../data/usermodel.dart';
 
@@ -51,6 +49,8 @@ class OrdersController extends GetxController {
   double accessoryPrice = 0;
 
   double feet = 0;
+
+  double totalCostValue = 0;
   @override
   void onInit() {
     super.onInit();
@@ -86,10 +86,12 @@ class OrdersController extends GetxController {
 
   Future<void> savedata() async {
     saveddata.add(tableData);
-
+    print(height.value);
+    print(width.value);
     var data = {
       "name": username.value,
-
+      "height": height.value,
+      "width": width.value,
       "phone_number": phoneNumber.value,
       "type": selectedOption.value == '120' ? "Arabian" : "ring",
       "meter": meter,
@@ -128,7 +130,7 @@ class OrdersController extends GetxController {
             ? ((width.value * 2 / 12).round() / 2 * 250)
             : 0.0;
 
-    double totalCostValue = sewingCost + meterCost;
+    totalCostValue = sewingCost + meterCost;
     if (ispipefitted == false) {
       totalCostValue += accessoryPrice + installCharge;
     }
@@ -147,7 +149,7 @@ class OrdersController extends GetxController {
     }
 
     tableData.value = [
-      ['Meter Cost', meter, price.value, meterCost],
+      ['Meter Cost  ', meter, price.value, meterCost],
       [
         'Swing Cost (With Material)',
         pano,
@@ -155,12 +157,7 @@ class OrdersController extends GetxController {
         sewingCost,
       ],
       if (selectedOption.value == '120' && ispipefitted == false)
-        [
-          'Accessory Cost',
-          (width.value * 2 / 12).round() / 2,
-          250,
-          accessoryPrice,
-        ],
+        ['Accessory Cost', converthalf(width.value), 250, accessoryPrice],
       if (selectedOption.value == '210' && ispipefitted == false)
         ['Pipe Cost', '$feet feet', 40, feet * 40],
       if (selectedOption.value == '210' && ispipefitted == false)
@@ -172,35 +169,46 @@ class OrdersController extends GetxController {
 
     totalCost.value = totalCostValue;
     Get.forceAppUpdate();
-    Get.dialog(
-      mp.AlertDialog(
-        shape: mp.BeveledRectangleBorder(),
-        title: mp.Text('Download PDF'),
-        content: mp.Text('Do you want to download the quotation as a PDF?'),
-        actions: [
-          mp.TextButton(
-            onPressed: () {
-              // Dismiss the dialog
-              Get.back();
-            },
+    // Get.dialog(
+    //   mp.AlertDialog(
+    //     shape: mp.BeveledRectangleBorder(),
+    //     title: mp.Text('Download PDF'),
+    //     content: mp.Text('Do you want to download the quotation as a PDF?'),
+    //     actions: [
+    //       mp.TextButton(
+    //         onPressed: () {
+    //           // Dismiss the dialog
+    //           Get.back();
+    //         },
 
-            child: mp.Text('Cancel'),
-          ),
-          mp.TextButton(
-            onPressed: () {
-              // Generate the PDF if the user confirms
-              generatePDF(tableData, totalCostValue);
-              // Dismiss the dialog
-              Get.back();
-            },
-            style: Styles.buttonstyle,
-            child: mp.Text('Download'),
-          ),
-        ],
-      ),
-    );
+    //         child: mp.Text('Cancel'),
+    //       ),
+    //       mp.TextButton(
+    //         onPressed: () {
+    //           // Generate the PDF if the user confirms
+    //           generatePDF(tableData, totalCostValue);
+    //           // Dismiss the dialog
+    //           Get.back();
+    //         },
+    //         style: Styles.buttonstyle,
+    //         child: mp.Text('Download'),
+    //       ),
+    //     ],
+    //   ),
+    // );
+  }
 
-    // generatePDF(tableData, totalCostValue);
+  double converthalf(double widthValue) {
+    double result = widthValue / 12;
+    double decimalPart = result - result.toInt(); // Get the decimal part
+
+    if (decimalPart > 0.5) {
+      return result.ceilToDouble(); // Round up to the next integer
+    } else if (decimalPart > 0) {
+      return result.toInt() + 0.5; // Round down and add 0.5
+    } else {
+      return result.toInt().toDouble(); // Return the integer part as a double
+    }
   }
 
   Future<void> fetchProducts() async {

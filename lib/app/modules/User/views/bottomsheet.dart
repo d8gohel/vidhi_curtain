@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vidhiadmin/app/data/usermodel.dart';
 import 'package:vidhiadmin/app/modules/utils/commontextfield.dart';
 import 'package:vidhiadmin/app/modules/utils/styles.dart';
@@ -29,19 +30,24 @@ void showUserBottomSheet({required BuildContext context, UserModel? user}) {
   final TextEditingController zipController = TextEditingController(
     text: user?.zipCode ?? '',
   );
-
   showModalBottomSheet(
     context: context,
     shape: BeveledRectangleBorder(),
-    isScrollControlled: true,
+    isScrollControlled: true, // Ensures the sheet adjusts to the keyboard
     builder: (context) {
-      return Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(color: Colors.white),
+      return Padding(
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+          top: 16,
+          bottom:
+              MediaQuery.of(context).viewInsets.bottom, // Adjust for keyboard
+        ),
         child: SingleChildScrollView(
           child: Form(
             key: formKey,
             child: Column(
+              mainAxisSize: MainAxisSize.min, // Prevents unnecessary space
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -84,7 +90,10 @@ void showUserBottomSheet({required BuildContext context, UserModel? user}) {
                   iconData: Icons.phone,
                   textInputType: TextInputType.phone,
                   validator:
-                      (value) => value!.isEmpty ? "Enter phone number" : null,
+                      (value) =>
+                          value!.isNotEmpty && value.isNumericOnly
+                              ? null
+                              : "Enter phone number",
                 ),
                 CommonTextField(
                   controller: addressController,
@@ -138,7 +147,7 @@ void showUserBottomSheet({required BuildContext context, UserModel? user}) {
                             ),
                           );
                         }
-                        // Close the bottom sheet
+                        Navigator.pop(context); // Close the bottom sheet
                       }
                     },
                     child: Text(user == null ? "Add User" : "Update User"),

@@ -17,8 +17,14 @@ Future<void> main() async {
   );
   if (Platform.isWindows) {
     await windowManager.ensureInitialized();
+    await windowManager.setTitle("Vidhi Curtain");
+    
 
-    await windowManager.setResizable(false);
+    windowManager.setTitleBarStyle(
+      TitleBarStyle.normal,
+      windowButtonVisibility: false,
+    );
+    // await windowManager.setResizable(false);
 
     await windowManager.center();
   }

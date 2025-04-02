@@ -6,6 +6,7 @@ import 'package:vidhiadmin/app/data/color.dart';
 import 'package:vidhiadmin/app/data/images.dart';
 import 'package:vidhiadmin/app/modules/Auth/controllers/auth_controller.dart';
 import 'package:vidhiadmin/app/modules/Auth/views/forgotpassword_view.dart';
+import 'package:vidhiadmin/app/modules/Auth/views/signup_view.dart';
 import 'package:vidhiadmin/app/modules/utils/gradientbutton.dart';
 
 class LoginView extends StatefulWidget {
@@ -18,7 +19,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   bool check = true;
-  final AuthController controller = Get.find<AuthController>();
+  final AuthController controller = Get.put(AuthController());
   final TextEditingController mailcontroller = TextEditingController();
   final TextEditingController passwordcontroller = TextEditingController();
 
@@ -203,6 +204,33 @@ class _LoginViewState extends State<LoginView> {
                         },
                         child: Text(
                           'click here',
+                          style: TextStyle(
+                            color: color.themecolor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'New User signup ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Get.to(() => SignupView());
+                        },
+                        child: Text(
+                          'Here',
                           style: TextStyle(
                             color: color.themecolor,
                             fontSize: 14,
