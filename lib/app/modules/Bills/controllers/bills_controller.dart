@@ -13,6 +13,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class BillsController extends GetxController {
+  var files = <FileSystemEntity>[].obs;
   final supabase = Supabase.instance.client;
   var orders = <Map<String, dynamic>>[].obs;
   var checklist = <bool>[].obs; // Make checklist reactive
@@ -25,7 +26,21 @@ class BillsController extends GetxController {
   @override
   void onInit() {
     getData();
+    _loadCacheFiles();
     super.onInit();
+  }
+
+  Future<void> _loadCacheFiles() async {
+    try {
+      // Get the cache directory
+      final directory = await getApplicationCacheDirectory();
+
+      // List all files in the cache directory
+      final fileList = directory.listSync();
+      files.assignAll(fileList); // Update the reactive list with new files
+    } catch (e) {
+      print('Error loading cache files: $e');
+    }
   }
 
   double sum(List l, String arg) {
@@ -337,7 +352,7 @@ class BillsController extends GetxController {
     );
     // Save the PDF file to the device
     final output = await getApplicationCacheDirectory();
-    final file = File('${output.path}/${billlist[0]["name"]}.pdf');
+    final file = File('${output.path}/${DateTime.now().toString().replaceAll(" ", "")}.pdf');
     await file.writeAsBytes(await pdf.save());
     Get.snackbar(
       "saved",

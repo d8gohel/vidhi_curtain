@@ -274,7 +274,7 @@ class OrdersView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
+                      TextButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             controller.count();
@@ -289,7 +289,7 @@ class OrdersView extends StatelessWidget {
                         Row(
                           children: [
                             SizedBox(width: 5),
-                            ElevatedButton(
+                            TextButton(
                               onPressed: () {
                                 controller.savedata();
                               },
@@ -297,17 +297,30 @@ class OrdersView extends StatelessWidget {
                               child: Text("Save"),
                             ),
                             SizedBox(width: 5),
-                            ElevatedButton(
+                            TextButton(
                               onPressed: () {
                                 // controller.savedata();
                                 _nameController.text = "";
-                                controller.selectedOption.value = "";
+                                // controller.selectedOption.value = "";
+                                controller.selectedWindow = null;
                                 heightcontroller.text = "";
                                 widthcontroller.text = "";
                                 pricecontroller.text = "";
+                                controller.phoneNumber = "".obs;
                               },
                               style: Styles.buttonstyle,
                               child: Text("Clear Fields"),
+                            ),
+                            SizedBox(width: 5),
+                            TextButton(
+                              style: Styles.buttonstyle,
+                              onPressed: () {
+                                controller.generatePDF(
+                                  controller.tableData,
+                                  controller.totalCostValue,
+                                );
+                              },
+                              child: Text("Download"),
                             ),
                           ],
                         ),

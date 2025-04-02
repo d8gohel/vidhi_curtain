@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vidhiadmin/app/data/color.dart';
 import 'package:vidhiadmin/app/modules/Bills/views/details_view.dart';
+import 'package:vidhiadmin/app/modules/Bills/views/downloads_view.dart';
 import 'package:vidhiadmin/app/modules/utils/styles.dart';
 import '../controllers/bills_controller.dart';
 
@@ -22,7 +23,9 @@ class BillsView extends GetView<BillsController> {
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
               style: Styles.buttonstyle,
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => CacheFilesPage());
+              },
               icon: Icon(Icons.download_rounded, color: Colors.white),
             ),
           ),
@@ -74,20 +77,20 @@ class BillsView extends GetView<BillsController> {
                             },
                             style: Styles.buttonstyle,
                             child: Text(
-                              "Download Estimation",
+                              "Download",
                               style: GoogleFonts.sanchez(fontSize: 15),
                             ),
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              controller.genratepdf();
-                            },
-                            style: Styles.buttonstyle,
-                            child: Text(
-                              "Download Bill",
-                              style: GoogleFonts.sanchez(fontSize: 15),
-                            ),
-                          ),
+                          // ElevatedButton(
+                          //   onPressed: () {
+                          //     controller.genratepdf();
+                          //   },
+                          //   style: Styles.buttonstyle,
+                          //   child: Text(
+                          //     "Download Bill",
+                          //     style: GoogleFonts.sanchez(fontSize: 15),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:camera/camera.dart';
 import 'package:get/get.dart';
+import 'package:vidhiadmin/app/modules/Presentation/views/display_image.dart';
 
 import '../modules/Auth/bindings/auth_binding.dart';
 import '../modules/Auth/views/auth_view.dart';
@@ -49,7 +51,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PRESENTATION,
-      page: () => const PresentationView(),
+      page: () =>  CameraScreen(),
       binding: PresentationBinding(),
     ),
     GetPage(

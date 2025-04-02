@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vidhiadmin/app/modules/utils/commontextfield.dart';
+import 'package:vidhiadmin/app/modules/utils/styles.dart';
 import '../controllers/window_controller.dart';
 import 'package:vidhiadmin/app/data/windowmodel.dart';
 
@@ -82,6 +83,7 @@ void showWindowBottomSheet({WindowModel? window, required int userId}) {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: Styles.buttonstyle,
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       if (window == null) {

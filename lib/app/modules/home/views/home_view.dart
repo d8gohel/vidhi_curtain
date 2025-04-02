@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:vidhiadmin/app/modules/Auth/views/auth_view.dart';import 'package:vidhiadmin/app/modules/Bills/views/bills_view.dart';
 import 'package:vidhiadmin/app/modules/Orders/views/orders_view.dart';
+import 'package:vidhiadmin/app/modules/Presentation/views/display_image.dart';
 import 'package:vidhiadmin/app/modules/Presentation/views/presentation_view.dart';
 import 'package:vidhiadmin/app/modules/Products/views/products_view.dart';
 import 'package:vidhiadmin/app/modules/User/views/user_view.dart';
@@ -107,7 +109,7 @@ class HomeView extends GetView<HomeController> {
               iconData: Icons.desktop_mac_outlined,
               color: Colors.yellow,
               ontap: () {
-                Get.to(() => PresentationView());
+                Get.to(() => CameraScreen());
               },
             ),
             SizedBox(

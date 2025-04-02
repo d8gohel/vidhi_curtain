@@ -79,6 +79,7 @@ void showProductBottomSheet(ProductController controller, {Product? product}) {
             CommonTextField(
               controller: priceController,
               label: 'Price',
+              textInputType: TextInputType.number,
               iconData: Icons.currency_rupee,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -92,50 +93,47 @@ void showProductBottomSheet(ProductController controller, {Product? product}) {
             ),
 
             // Display the selected image if available
-            Obx(() {
-              Logger().i(product!.imageUrl);
-              return controller.selectedImage.value != null ||
-                      product.imageUrl != null
-                  ? Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child:
-                            product.imageUrl != null
-                                ? Image.network(
-                                  product.imageUrl.toString(),
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                )
-                                : Image.file(
-                                  controller.selectedImage.value!,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                      ),
-                      Positioned(
-                        top: 10,
-                        right: 0,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.selectedImage.value = null;
-                          },
-                          child: Icon(Icons.close, color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  )
-                  : Text("No image Selected");
-            }),
-            ElevatedButton(
-              onPressed: () async {
-                await controller.showimage();
-              },
-              style: Styles.buttonstyle,
-              child: Text('Pick Image'),
+          Obx(() {
+  final selectedImage = controller.selectedImage.value;
+  final imageUrl = product?.imageUrl;
+
+  return (selectedImage != null || imageUrl != null)
+      ? Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: imageUrl != null
+                  ? Image.network(
+                      imageUrl,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.file(
+                      selectedImage!,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
             ),
+            Positioned(
+              top: 10,
+              right: 0,
+              child: GestureDetector(
+                onTap: () => controller.selectedImage.value = null,
+                child: const Icon(Icons.close, color: Colors.white),
+              ),
+            ),
+          ],
+        )
+      : const Text("No image selected");
+}),
+ElevatedButton(
+  onPressed: () async => await controller.showimage(),
+  style: Styles.buttonstyle,
+  child: const Text('Pick Image'),
+),
+
             SizedBox(height: 5),
             ElevatedButton(
               onPressed: () {

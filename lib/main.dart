@@ -18,6 +18,7 @@ Future<void> main() async {
   if (Platform.isWindows) {
     await windowManager.ensureInitialized();
     await windowManager.setTitle("Vidhi Curtain");
+    
 
     windowManager.setTitleBarStyle(
       TitleBarStyle.normal,
